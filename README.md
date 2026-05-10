@@ -1,32 +1,101 @@
 # 181_36_Cursor_5400_Cat
 
-Depot de documentation pour la collection locale `181_36_Cursor_5400_Cat`.
+Depot de base pour documenter et piloter le site local de la collection `181_36_Cursor_5400_Cat`.
 
-Ce depot sert a conserver les informations essentielles du projet sans envoyer les fichiers lourds ou binaires vers GitHub. Les images, fichiers audio, videos, PDF, archives et dossiers de contenu restent en local et sont volontairement exclus du suivi Git.
+Ce depot est volontairement leger : il conserve uniquement les fichiers essentiels places a la racine du projet. Les dossiers de contenu, les images, les fichiers audio, les videos, les PDF et les archives restent en local et ne sont pas envoyes vers GitHub.
 
 ## Raccordement Git
 
 - Depot GitHub : <https://github.com/Delfosse-Pascal/181_36_Cursor_5400_Cat>
 - Dossier local : `C:\Users\Pascal509\Desktop\181_36_Cursor_5400_Cat`
 - Branche principale : `main`
+- Remote Git : `origin`
 
-Le dossier local est raccorde au depot GitHub via le remote `origin`.
+Le dossier local est raccorde au depot GitHub ci-dessus. Le depot distant sert a garder les tiroirs de base du projet : documentation, page d'accueil, styles, scripts et outil de generation.
 
-## Contenu local
+## Objectif du projet
 
-Le dossier local contient principalement une collection de curseurs et quelques fichiers musicaux :
+Le projet sert a presenter localement une grande collection de curseurs sous forme de site HTML navigable.
 
-- `Les_Curseurs/` : collection locale de curseurs classes par dossiers.
-- `Musiques/` : fichiers audio locaux associes au projet.
+Le site local permet de :
 
-Ces dossiers ne sont pas suivis dans Git afin de garder le depot propre, rapide a cloner et conforme a la consigne d'exclure les medias.
+- ouvrir une page d'accueil generale avec `index.html` ;
+- acceder aux galeries des dossiers `Curseurs_*` ;
+- afficher les images sous forme de miniatures ;
+- ouvrir chaque image en grand au clic ;
+- fermer l'affichage agrandi avec la touche `Echap` ;
+- utiliser un mode clair / sombre ;
+- lire les musiques locales uniquement apres action manuelle ;
+- naviguer entre les pages sans dependance Internet obligatoire.
 
-## Fichiers versionnes
+Les ressources externes ajoutees dans les pages HTML sont optionnelles. Le site reste utilisable localement meme si ces ressources ne chargent pas.
 
-Le depot GitHub doit contenir uniquement les fichiers de base places a la racine, par exemple :
+## Structure locale
 
-- `README.md` : documentation du depot.
-- `.gitignore` : regles d'exclusion pour eviter l'ajout des dossiers et fichiers lourds.
+La structure principale du dossier local est la suivante :
+
+```text
+181_36_Cursor_5400_Cat/
+|-- README.md
+|-- .gitignore
+|-- index.html
+|-- site.css
+|-- site.js
+|-- build-site.js
+|-- Les_Curseurs/
+`-- Musiques/
+```
+
+## Fichiers conserves dans Git
+
+Seuls les fichiers racine utiles sont suivis dans Git :
+
+- `README.md` : documentation claire du projet, de son fonctionnement et des regles de versionnement.
+- `.gitignore` : exclusions pour garder hors Git les dossiers et fichiers lourds.
+- `index.html` : page d'accueil principale du site local.
+- `site.css` : style commun du site local.
+- `site.js` : interactions communes du site local.
+- `build-site.js` : script de generation des pages HTML locales dans les dossiers de contenu.
+
+Ces fichiers sont les tiroirs de base du projet. Ils suffisent a documenter et reconstruire l'organisation HTML locale, sans pousser les medias.
+
+## Contenu local non versionne
+
+Les dossiers suivants restent sur la machine, mais sont ignores par Git :
+
+- `Les_Curseurs/` : collection locale de curseurs et pages HTML generees dans les sous-dossiers `Curseurs_*`.
+- `Musiques/` : musiques locales utilisees par le lecteur audio de la page d'accueil.
+
+Ces dossiers peuvent contenir beaucoup de fichiers et de medias. Ils ne doivent pas etre ajoutes au depot GitHub.
+
+## Site HTML local
+
+La page d'accueil principale est :
+
+```text
+index.html
+```
+
+Elle sert d'entree generale au site local. Elle contient :
+
+- une navigation vers les collections `Curseurs_*` ;
+- des miniatures de presentation ;
+- un bouton rouge `Musique` ;
+- un lecteur audio sans lecture automatique ;
+- un mode clair / sombre ;
+- les menus demandes dans le haut de page.
+
+Les pages de galerie sont generees dans les dossiers locaux `Les_Curseurs/Curseurs_*`. Elles restent ignorees par Git afin de respecter la consigne de ne pas pousser les dossiers.
+
+## Regeneration des pages locales
+
+Pour regenerer les pages HTML locales a partir du contenu present dans `Les_Curseurs/` et `Musiques/`, utiliser :
+
+```powershell
+node .\build-site.js
+```
+
+Le script parcourt les dossiers `Curseurs_*`, detecte les images, lit les dimensions disponibles et cree automatiquement les pages HTML necessaires. Les gros dossiers sont decoupes en plusieurs pages reliees entre elles.
 
 ## Fichiers exclus
 
@@ -37,24 +106,48 @@ Les types de fichiers suivants sont exclus du suivi Git :
 - videos : `mp4`, `mov`, `avi`, `mkv`, `webm`, `wmv`, `flv`, `m4v`
 - audio : `mp3`, `wav`, `flac`, `aac`, `ogg`, `m4a`, `wma`
 - archives : `zip`, `rar`, `7z`, `tar`, `gz`, `bz2`, `xz`, `iso`
-- dossiers de contenu locaux, notamment `Les_Curseurs/` et `Musiques/`
+- dossiers : tous les dossiers de contenu sont ignores par defaut
 
-## Utilisation recommandee
+## Verification avant commit
 
-1. Garder les fichiers de contenu volumineux en local.
-2. Mettre a jour cette documentation lorsque l'organisation locale change.
-3. Verifier l'etat Git avant chaque commit avec :
+Avant un commit, verifier que seuls les fichiers racine utiles sont suivis :
 
 ```powershell
-git status
+git status --short --ignored
 ```
 
-4. Ajouter uniquement les fichiers racine utiles :
+Les dossiers de contenu doivent apparaitre comme ignores, par exemple :
+
+```text
+!! Les_Curseurs/
+!! Musiques/
+```
+
+Les fichiers a ajouter doivent rester au niveau racine du projet.
+
+## Commandes Git utiles
+
+Ajouter uniquement les fichiers de base :
 
 ```powershell
-git add README.md .gitignore
+git add README.md .gitignore index.html site.css site.js build-site.js
 ```
 
-## Notes
+Creer un commit :
 
-Ce depot n'est pas destine a heberger directement la collection complete de fichiers media. Il sert plutot de point de reference documente pour identifier le dossier local, son depot GitHub associe et les regles de versionnement appliquees.
+```powershell
+git commit -m "Update local site documentation"
+```
+
+Envoyer vers GitHub :
+
+```powershell
+git push
+```
+
+## Notes importantes
+
+- Le depot GitHub ne contient pas la collection complete de medias.
+- Le site local fonctionne avec les fichiers presents sur la machine.
+- Les pages generees dans les dossiers de contenu ne sont pas poussees.
+- Les fichiers lourds restent exclus afin de garder le depot rapide, propre et facile a maintenir.
